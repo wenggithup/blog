@@ -17,13 +17,14 @@ public class BlogApplication {
         for (int i = 1; i < 100; i++) {
             userDao.insertUser(i,"张三"+i,"zhangsan"+i,"zhangsan@"+i*i);
         }*/
-        /*UserDao userDao= context.getBean(UserDao.class);
-        System.out.println(userDao.selectUserByName("张三5").toString());*/
+        UserDao userDao= context.getBean(UserDao.class);
+        System.out.println(userDao.selectUserByName("张三5").toString());
        BlogDao blog =context.getBean(BlogDao.class);
-        for (int i = 3; i < 100; i++) {
-            blog.insertBlog(i+1,"这是标题"+i,"这是博客内容"+i+" "+i,i);
-        }
-
+        /*for (int i = 102; i < 200; i++) {
+            blog.insertBlog(i,"这是标题"+i,"这是博客内容"+i+" "+i,99);
+        }*/
+        BlogDao blogDao=context.getBean(BlogDao.class);
+        System.out.println(blogDao.selectBlogByUsername("张三6"));
 
     }
 }

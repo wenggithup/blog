@@ -6,4 +6,11 @@
         insert into blog (id,title,content,user_id) values
          (#{id},#{title},#{content},#{userId})
     </insert>
+    <select id="selectBlogByUsername" resultType="club.banyuan.bean.Blog">
+        SELECT b.* FROM blog AS b JOIN `user` AS `u` ON b.user_id = u.id WHERE u.name = #{username}
+    </select>
+    <select id="selectBlogByUsernameWithPageInfo" resultType="club.banyuan.bean.Blog">
+        SELECT b.* FROM blog AS b JOIN `user` AS `u` ON b.user_id = u.id WHERE u.name = #{username}
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
 </mapper>
