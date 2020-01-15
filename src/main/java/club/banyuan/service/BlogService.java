@@ -31,8 +31,15 @@ public class BlogService {
         List<Blog> allBlogs= blogDao.selectBlogByUsername(name);
         //使用pageInfo返回
         return new PageInfo(allBlogs);
+    }
+    //通过博客id展示 内容
+    public Blog findBlogById(Integer id){
+        return blogDao.selectBlogByid(id);
+    }
 
-
+    //插入blog用户
+    public void insertBlogs(Blog blog){
+        blogDao.insetBlog(blog);
     }
 
 }

@@ -1,19 +1,14 @@
 package club.banyuan.bean;
 
-import jdk.nashorn.internal.objects.annotations.Constructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
-
 import javax.xml.crypto.Data;
-@lombok.Data
 
-public class Blog {
+@lombok.Data
+public class Comment {
     private Integer id;
-    private String title;
     private String content;
     private Data createdTime;
     private Integer userId;
+    private Integer blogId;
 
     public Integer getId() {
         return id;
@@ -21,14 +16,6 @@ public class Blog {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getContent() {
@@ -53,5 +40,13 @@ public class Blog {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Integer getBlogId() {
+        return blogId;
+    }
+
+    public void setBlogId(Integer blogId) {
+        this.blogId = blogId;
     }
 }

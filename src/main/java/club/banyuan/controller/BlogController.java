@@ -1,8 +1,11 @@
 package club.banyuan.controller;
 
 import club.banyuan.bean.Blog;
+import club.banyuan.bean.Comment;
 import club.banyuan.bean.User;
+import club.banyuan.dao.CommentDao;
 import club.banyuan.service.BlogService;
+import club.banyuan.service.CommentService;
 import club.banyuan.service.UserService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -20,11 +24,43 @@ public class BlogController {
     private BlogService blogService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private CommentService commentService;
+    @GetMapping("/blogs/create")
+    String showCreatePage(){
+        return "create";
+    }
+    @PostMapping("/blogs/100")
+    public String createCommnet(@RequestParam String content){
+        Comment comment=new Comment();
+        Integer userId=99;
+        Integer blogId=100;
+        comment.setBlogId(blogId);
+        comment.setUserId(userId);
+        comment.setContent(content);
+        commentService.insertCommnet(comment);
+        return "blogs/100/comments";
+    }
+
+    //处理提交blog请求（添加博客内容），前台传参只有 title和content
+    @PostMapping("/blogs")
+    public String createBlog(@RequestParam String title,@RequestParam String content){
+        Blog blog=new Blog();
+        blog.setTitle(title);
+        blog.setContent(content);
+        //设置同一个用户下的博客
+        Integer userId=99;
+        blog.setUserId(userId);
+        blogService.insertBlogs(blog);
+        //重定向到 blogs/blogs.getId中
+        return "redirect:/blogs/"+blog.getId();
+    }
+    //user用户界面
     @GetMapping("/user/{username}")
     String getUserBlogs(@PathVariable String username,
                         @RequestParam(defaultValue = "1",required = false) Integer page,
                         @RequestParam(defaultValue = "10",required = false) Integer size, Model model){
-
+        //通过username返回User对象
         User user=userService.findUserByName(username);
        /* List <Blog> blogs=blogService.findBlogByUsernameWithPageInfo(username,page,size);
 
@@ -42,4 +78,16 @@ public class BlogController {
         return "list";
 
     }
+    //返回点击标题后的博客内容
+    @GetMapping("/blogs/{id}")
+    String getBlog(@PathVariable Integer id,Model model){
+        //通过blogid返回Blog对象
+        Blog blog= blogService.findBlogById(id);
+        //通过blogid返回Comment对象集合
+        List<Comment> comment = commentService.findCommentByBlogId(id);
+        model.addAttribute("blog",blog);
+        model.addAttribute("comments",comment);
+        return "item";
+    }
+
 }
