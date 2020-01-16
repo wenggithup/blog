@@ -9,6 +9,7 @@ import java.util.List;
 public interface CommentDao {
     //通过blogsid展示评论
     public List<Comment> getCommentByBlogId(Integer blogid);
+
     //添加评论
     void insertComment(Comment comment);
 }

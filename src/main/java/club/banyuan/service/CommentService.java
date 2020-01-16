@@ -12,14 +12,15 @@ import java.util.List;
 @Service
 public class CommentService {
     private CommentDao commentDao;
+
     @Autowired
     public CommentService(CommentDao commentDaoo) {
-        this.commentDao=commentDaoo;
+        this.commentDao = commentDaoo;
     }
 
 
     //通过blogid查看评论
-    public List<Comment> findCommentByBlogId(Integer blogid){
+    public List<Comment> findCommentByBlogId(Integer blogid) {
         return commentDao.getCommentByBlogId(blogid);
     }
 

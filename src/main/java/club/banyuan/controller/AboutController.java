@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class AboutController {
     @GetMapping("/about")
-    String getabout(){
+    String getabout() {
         return "about";
     }
    /* @GetMapping("/about/{username}")

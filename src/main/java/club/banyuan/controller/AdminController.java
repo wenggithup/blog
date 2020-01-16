@@ -19,14 +19,15 @@ import java.util.List;
 public class AdminController {
     @Autowired
     private BlogService blogService;
+
     @GetMapping("user/{username}/admin")
     String getAdimn(@PathVariable String username, Model model,
-                    @RequestParam(defaultValue = "1",required = false) Integer page,
-                    @RequestParam(defaultValue = "10",required = false) Integer size){
+                    @RequestParam(defaultValue = "1", required = false) Integer page,
+                    @RequestParam(defaultValue = "10", required = false) Integer size) {
 
-        PageInfo blogs=blogService.getUserBlog(username,page,size);
+        PageInfo blogs = blogService.getUserBlog(username, page, size);
         System.out.println(blogs);
-        model.addAttribute("blogs",blogs);
+        model.addAttribute("blogs", blogs);
 
         return "admin";
     }
