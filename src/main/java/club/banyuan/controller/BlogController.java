@@ -26,20 +26,24 @@ public class BlogController {
     private UserService userService;
     @Autowired
     private CommentService commentService;
+    //创
     @GetMapping("/blogs/create")
     String showCreatePage(){
         return "create";
     }
-    @PostMapping("/blogs/100")
-    public String createCommnet(@RequestParam String content){
+
+    //添加评论
+    @PostMapping("/blogs/{blogid}/comments")
+    public String createCommnet(@PathVariable Integer blogid,@RequestParam String content){
+        Blog blog= blogService.findBlogById(blogid);
         Comment comment=new Comment();
-        Integer userId=99;
-        Integer blogId=100;
-        comment.setBlogId(blogId);
-        comment.setUserId(userId);
+        comment.setBlogId(blog.getId());
+        comment.setUserId(blog.getUserId());
         comment.setContent(content);
+        //添加评论
         commentService.insertCommnet(comment);
-        return "blogs/100/comments";
+        //重定向链接
+        return "redirect:/blogs/" + blogid;
     }
 
     //处理提交blog请求（添加博客内容），前台传参只有 title和content
@@ -55,6 +59,7 @@ public class BlogController {
         //重定向到 blogs/blogs.getId中
         return "redirect:/blogs/"+blog.getId();
     }
+
     //user用户界面
     @GetMapping("/user/{username}")
     String getUserBlogs(@PathVariable String username,
@@ -76,8 +81,8 @@ public class BlogController {
         model.addAttribute("user",user);
         model.addAttribute("blogs",blogs);
         return "list";
-
     }
+
     //返回点击标题后的博客内容
     @GetMapping("/blogs/{id}")
     String getBlog(@PathVariable Integer id,Model model){

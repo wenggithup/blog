@@ -7,6 +7,6 @@
         select * from comment where blog_id=${blogid}
     </select>
     <insert id="insertComment" >
-        insert into comment(content) values (${content})
+        insert into comment(content,user_id,blog_id) values (#{content},#{userId},#{blogId})
     </insert>
 </mapper>
