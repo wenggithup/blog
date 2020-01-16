@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -26,35 +28,27 @@ public class BlogController {
     private UserService userService;
     @Autowired
     private CommentService commentService;
-    //创
+
+    //创建博客
     @GetMapping("/blogs/create")
-    String showCreatePage(){
-        return "create";
+    String showCreatePage(HttpSession session, HttpServletRequest request){
+        User user=(User) session.getAttribute("CURRENT_USER");
+        if(user!=null){
+            return "create";
+        }else {
+            String currentUri=request.getRequestURI();
+            return "redirect:/login?next="+currentUri;
+        }
+
     }
 
-    //添加评论
-    @PostMapping("/blogs/{blogid}/comments")
-    public String createCommnet(@PathVariable Integer blogid,@RequestParam String content){
-        Blog blog= blogService.findBlogById(blogid);
-        Comment comment=new Comment();
-        comment.setBlogId(blog.getId());
-        comment.setUserId(blog.getUserId());
-        comment.setContent(content);
-        //添加评论
-        commentService.insertCommnet(comment);
-        //重定向链接
-        return "redirect:/blogs/" + blogid;
-    }
 
     //处理提交blog请求（添加博客内容），前台传参只有 title和content
     @PostMapping("/blogs")
-    public String createBlog(@RequestParam String title,@RequestParam String content){
-        Blog blog=new Blog();
-        blog.setTitle(title);
-        blog.setContent(content);
-        //设置同一个用户下的博客
-        Integer userId=99;
-        blog.setUserId(userId);
+    //public String createBlog(@RequestParam String title,@RequestParam String content){
+      public String createBlog(Blog blog,HttpSession session){
+        User user=(User)session.getAttribute("CURRENT_USER");
+        blog.setUserId(user.getId());
         blogService.insertBlogs(blog);
         //重定向到 blogs/blogs.getId中
         return "redirect:/blogs/"+blog.getId();
