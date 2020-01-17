@@ -44,15 +44,13 @@ public class CommentController {
         User cruuent = (User) session.getAttribute("CURRENT_USER");
 
         //判断session中的内容是否为空,如果不为空返回blogs界面，否则返回登陆界面
-        if (cruuent != null) {
             comment.setBlogId(blogId);
             comment.setUserId(cruuent.getId());
             //添加评论
             commentService.insertCommnet(comment);
-
             //重定向链接
             return "redirect:/blogs/" + blogId;
-        } else {
+        }/* else {
             //如果没有登陆，获取当前的连接并存入session，存储用户内容后跳到login界面
             String commentNext = request.getRequestURI();
             //将当前输入内容存储
@@ -65,8 +63,8 @@ public class CommentController {
             }
 
 
-        }
+        }*/
 
-    }
+
 
 }

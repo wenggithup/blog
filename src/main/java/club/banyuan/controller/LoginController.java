@@ -50,7 +50,15 @@ public class LoginController {
             //将user对象存于session中的CURRENT_USER字段
             httpSession.setAttribute("CURRENT_USER", user);
             if (next != null) {
-                return "redirect:" + next;
+                String [] uri=next.split("/");
+                String redirectUrl = "";
+                for (String i: uri) {
+                    if (i.length() > 0) {
+                        redirectUrl += "/" + URLEncoder.encode(i, "UTF-8");
+                    }
+                }
+                httpSession.removeAttribute("NEXT_URI");
+                return "redirect:" + redirectUrl;
             }
             //返回user/username界面，注意username是汉字，需要限定编码格式
             return "redirect:/user/" + URLEncoder.encode(username, "UTF-8");

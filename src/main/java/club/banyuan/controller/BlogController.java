@@ -31,7 +31,10 @@ public class BlogController {
 
     //创建博客
     @GetMapping("/blogs/create")
-    String showCreatePage(HttpSession session, HttpServletRequest request) {
+    String showCreatePage(){
+        return "create";
+    }
+/*    String showCreatePage(HttpSession session, HttpServletRequest request) {
         //取出CURRENT_USER字段的值
         User user = (User) session.getAttribute("CURRENT_USER");
         //如果用户为空，则表示当前用户没有登陆，应加上当前的url返回到login界面，否则读取create界面
@@ -43,7 +46,7 @@ public class BlogController {
             return "redirect:/login?next=" + currentUri;
         }
 
-    }
+    }*/
 
 
     //处理提交blog请求（添加博客内容），前台传参只有 title和content

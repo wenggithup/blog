@@ -28,7 +28,7 @@ public class AdminController {
         PageInfo blogs = blogService.getUserBlog(username, page, size);
         System.out.println(blogs);
         model.addAttribute("blogs", blogs);
-
+        model.addAttribute("username",username);
         return "admin";
     }
 
