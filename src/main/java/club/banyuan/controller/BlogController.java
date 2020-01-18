@@ -31,7 +31,7 @@ public class BlogController {
 
     //创建博客
     @GetMapping("/blogs/create")
-    String showCreatePage(){
+    String showCreatePage() {
         return "create";
     }
 /*    String showCreatePage(HttpSession session, HttpServletRequest request) {

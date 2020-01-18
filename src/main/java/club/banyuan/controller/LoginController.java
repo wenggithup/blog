@@ -50,9 +50,10 @@ public class LoginController {
             //将user对象存于session中的CURRENT_USER字段
             httpSession.setAttribute("CURRENT_USER", user);
             if (next != null) {
-                String [] uri=next.split("/");
+                //含有中文的Path注意要转换编码格式，否则链接会乱码
+                String[] uri = next.split("/");
                 String redirectUrl = "";
-                for (String i: uri) {
+                for (String i : uri) {
                     if (i.length() > 0) {
                         redirectUrl += "/" + URLEncoder.encode(i, "UTF-8");
                     }
